@@ -1,0 +1,111 @@
+{
+	"id": "3c061bc8-8c85-4702-82fb-4a6bfa0a5083",
+	"name": "REST API with Postman -1",
+	"timestamp": "2022-03-23T12:32:45.641Z",
+	"collection_id": "19981810-7e801b33-b950-4d79-91da-053e2197296e",
+	"folder_id": 0,
+	"environment_id": "19981810-184dd54d-80ce-425d-b2d6-c7aef934c090",
+	"totalPass": 3,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "1b13ea59-416e-4dd6-95c4-c3666643fad2",
+			"name": "Create a new issue",
+			"url": "https://restapijira.atlassian.net/rest/api/2/issue/",
+			"time": 1101,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Validate status code": true
+			},
+			"testPassFailCounts": {
+				"Validate status code": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1101
+			],
+			"allTests": [
+				{
+					"Validate status code": true
+				}
+			]
+		},
+		{
+			"id": "a74eb1bf-bc15-43c4-b402-5f3a8637821b",
+			"name": "Update the issue",
+			"url": "https://restapijira.atlassian.net/rest/api/2/issue/10184",
+			"time": 324,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Validate status code": true
+			},
+			"testPassFailCounts": {
+				"Validate status code": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				324
+			],
+			"allTests": [
+				{
+					"Validate status code": true
+				}
+			]
+		},
+		{
+			"id": "200d50dd-c10d-4f05-816c-5849d490bd86",
+			"name": "Delete the issue",
+			"url": "https://restapijira.atlassian.net/rest/api/2/issue/10184",
+			"time": 520,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Validate success status code": true
+			},
+			"testPassFailCounts": {
+				"Validate success status code": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				520
+			],
+			"allTests": [
+				{
+					"Validate success status code": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1945,
+	"collection": {
+		"requests": [
+			{
+				"id": "1b13ea59-416e-4dd6-95c4-c3666643fad2",
+				"method": "POST"
+			},
+			{
+				"id": "a74eb1bf-bc15-43c4-b402-5f3a8637821b",
+				"method": "PUT"
+			},
+			{
+				"id": "200d50dd-c10d-4f05-816c-5849d490bd86",
+				"method": "DELETE"
+			}
+		]
+	}
+}

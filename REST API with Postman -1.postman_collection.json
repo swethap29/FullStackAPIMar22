@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "7e801b33-b950-4d79-91da-053e2197296e",
+		"name": "REST API with Postman -1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a new issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1.validate status code is 201 created\r",
+							"pm.test(\"Validate status code\",function(){\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"//2. Get the response\r",
+							"var response_json = pm.response.json();\r",
+							"\r",
+							"//3. Go to the issue id field in the response json and store it in local variable\r",
+							"var local_issue_id = response_json.id;\r",
+							"\r",
+							"//4. Set the local issue id to a global variable\r",
+							"pm.globals.set(\"global_var_issue\",local_issue_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n    \"fields\":{\r\n        \"project\": {\r\n            \"key\": \"AP\"\r\n        },\r\n        \"summary\": \"create an issue in RA project\",\r\n        \"description\": \"Creating of an issue using project keys and issue type names using the REST API\",\r\n        \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        }\r\n    }\r\n    }\r\n"
+				},
+				"url": {
+					"raw": "https://{{env_var_jirahost}}/rest/api/2/{{collect_var_tablename}}/",
+					"protocol": "https",
+					"host": [
+						"{{env_var_jirahost}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update the issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1.validate the status code\r",
+							"pm.test(\"Validate status code\",function(){\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n       \r\n        \"description\": \"Issue updated via Postman on Mar 23 --first time\"\r\n    }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{env_var_jirahost}}/rest/api/2/{{collect_var_tablename}}/{{global_var_issue}}",
+					"protocol": "https",
+					"host": [
+						"{{env_var_jirahost}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}",
+						"{{global_var_issue}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete the issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1. vaidate the status code\r",
+							"pm.test(\"Validate success status code\",function(){\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{env_var_jirahost}}/rest/api/2/{{collect_var_tablename}}/{{global_var_issue}}",
+					"protocol": "https",
+					"host": [
+						"{{env_var_jirahost}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}",
+						"{{global_var_issue}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "5cpm7Dkyw9IPG7ir2hX65CF2",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "RestAPIJira@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "collect_var_tablename",
+			"value": "issue",
+			"type": "string"
+		}
+	]
+}
