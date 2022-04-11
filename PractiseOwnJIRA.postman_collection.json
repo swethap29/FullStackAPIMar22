@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "b1af7632-7a93-4408-bef6-a6b44ab22443",
+		"name": "PractiseOwnJIRA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreatingNewIssue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"validate status code is 201\",function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\t{\r\n    \"fields\": {\r\n    \"project\":\r\n                {\r\n                    \"key\": \"RES\"\r\n                },\r\n    \"summary\": \"{{summary}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"issuetype\": {\r\n                    \"name\": \"{{name}}\"\r\n                }\r\n    }\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "https://{{env_var_hostname}}/rest/api/2/{{collect_var_tablename}}",
+					"protocol": "https",
+					"host": [
+						"{{env_var_hostname}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllIssues",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"validate status code is 200\",function(){\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"\r",
+							"var localIssueID= response.issues[0].id;\r",
+							"\r",
+							"pm.globals.set(\"global_var_issueID\",localIssueID);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{env_var_hostname}}/rest/api/2/search?jql=project=RES",
+					"protocol": "https",
+					"host": [
+						"{{env_var_hostname}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"search"
+					],
+					"query": [
+						{
+							"key": "jql",
+							"value": "project=RES"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllIssueTypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate status code is 200\",function(){\r",
+							"pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{env_var_hostname}}/rest/api/2/issuetype",
+					"protocol": "https",
+					"host": [
+						"{{env_var_hostname}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issuetype"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "json",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSpecificIssueType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"validate response status code is 200\",function(){\r",
+							"pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{env_var_hostname}}/rest/api/2/{{collect_var_tablename}}/{{global_var_issueID}}",
+					"protocol": "https",
+					"host": [
+						"{{env_var_hostname}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}",
+						"{{global_var_issueID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditIssue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate response status code is 204\",function(){\r",
+							"pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n       \r\n        \"description\": \"Issue updated via Postman--Own JIRA instance\"\r\n    }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://{{env_var_hostname}}/rest/api/2/{{collect_var_tablename}}/{{global_var_issueID}}",
+					"protocol": "https",
+					"host": [
+						"{{env_var_hostname}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}",
+						"{{global_var_issueID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteIssue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate response status code is 204\",function(){\r",
+							"pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{env_var_hostname}}/rest/api/2/{{collect_var_tablename}}/{{global_var_issueID}}",
+					"protocol": "https",
+					"host": [
+						"{{env_var_hostname}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{collect_var_tablename}}",
+						"{{global_var_issueID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "x3l9eESTuWk7ViZN47kcFC97",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "swe0929@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "collect_var_tablename",
+			"value": "issue",
+			"type": "string"
+		}
+	]
+}
